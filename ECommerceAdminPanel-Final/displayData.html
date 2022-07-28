@@ -1,0 +1,145 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+			#navbar {
+				position: sticy;
+				top: 0px;
+				padding: 30px;
+				background-color: rgba(0, 0, 0, 0.577);
+				width: 100%;
+				display: flex;
+				gap: 150px;
+				justify-content: center;
+				align-items: center;
+			}
+			#navbar > a {
+				text-decoration: none;
+				font-size: 30px;
+				font-weight: bolder;
+				color: white;
+			}
+			#navbar > a:hover {
+				color: aqua;
+			}
+			h1 {
+				margin-top: 20px;
+				text-align: center;
+			}
+            table{
+                text-align: center;
+                width: 90%;
+                margin: auto;
+                border-collapse: collapse;
+            }
+            thead{
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                font-weight: bold;
+                font-size: 25px;
+                background-color: rgb(154, 80, 224);
+            }
+            th{
+                padding: 10px 11px;
+                color:black;
+            }
+            tbody>tr{
+                box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            }
+            td{
+                padding: 12px 12px;
+                font-size: 20px;
+            }
+		</style>
+	</head>
+	<body>
+		<div id="navbar">
+			<a href="index.html">Home</a>
+			<a href="displayData.html">Display Data</a>
+		</div>
+		<h1>Data you Entered</h1>
+		<table>
+			<thead>
+				<th>Product Name</th>
+				<th>Category</th>
+				<th>Image_url</th>
+				<th>Price</th>
+				<th>Gender</th>
+				<th>Sold</th>
+				<th>Remove</th>
+				<th>Sell</th>
+			</thead>
+			<tbody>
+				<!-- append td here -->
+			</tbody>
+		</table>
+	</body>
+</html>
+<script>
+	let data = JSON.parse(localStorage.getItem("EnteredData"))||[];
+
+	display(data);
+
+	function display(data) {
+        document.querySelector("tbody").innerHTML = "";
+		data.forEach((ele, index) => {
+			let row = document.createElement("tr");
+			let name = document.createElement("td");
+			name.innerText = ele.name;
+			let cat = document.createElement("td");
+			cat.innerText = ele.category;
+			let url = document.createElement("td");
+			url.innerText = ele.image_url;
+			let price = document.createElement("td");
+			price.innerText = ele.price;
+			let gender = document.createElement("td");
+			gender.innerText = ele.gender;
+			let sold = document.createElement("td");
+			sold.innerText = ele.sold;
+			sold.style.color="white";
+            if(sold.innerText==="true"){
+            sold.style.backgroundColor="red";
+            }else{
+            sold.style.backgroundColor="green";
+            }
+			let remove = document.createElement("td");
+			remove.innerText = "Remove";
+			remove.style.color = "red";
+			remove.style.cursor = "pointer";
+            remove.addEventListener("click",()=>{
+                deleteData(index);
+            })
+			let sell = document.createElement("td");
+			sell.innerText = "Sell";
+			sell.style.cursor="pointer";
+            sell.addEventListener("click",()=>{
+                changeData(index,ele);
+            })
+			row.append(name, cat, url, price, gender, sold, remove, sell);
+			document.querySelector("tbody").append(row);
+		});
+	}
+
+    function deleteData(index){
+        data.splice(index,1);
+        display(data);
+        localStorage.setItem("EnteredData",JSON.stringify(data));
+    }
+    function changeData(index,ele){
+        if(ele.sold==="false"){
+            ele.sold="true";
+        }else{
+            ele.sold="false";
+        }
+        localStorage.setItem("EnteredData",JSON.stringify(data));
+        display(data);
+    }
+</script>

@@ -1,0 +1,122 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Admin-Panel</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+            #navbar{
+                position:sticy;
+                top:0px;
+                padding: 30px;
+                background-color: rgba(0, 0, 0, 0.577);
+                width: 100%;
+                display: flex;
+                gap:150px;
+                justify-content: center;
+                align-items: center;
+            }
+            #navbar>a{
+                text-decoration: none;
+                font-size: 30px;
+                font-weight: bolder;
+                color:white;
+            }
+            #navbar>a:hover{
+                color:aqua;
+            }
+			h1 {
+                margin-top: 20px;
+				text-align: center;
+			}
+			form {
+				gap: 15px;
+				padding: 60px 8px;
+				margin: auto;
+				margin-top: 50px;
+				box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+				width: 33%;
+				display: flex;
+				flex-direction: column;
+			}
+			form > input,
+			form > select {
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+				height: 30px;
+				width: 70%;
+				margin: auto;
+			}
+		</style>
+	</head>
+	<body>
+        <div id="navbar">
+            <a href="index.html">Home</a>
+            <a href="displayData.html">Display Data</a>
+        </div>
+		<h1>Admin-Panel</h1>
+		<form action="" onsubmit="getData()">
+			<input
+				type="text"
+				name=""
+				id="name"
+				placeholder="Product Name"
+				required
+			/>
+			<input
+				type="text"
+				name=""
+				id="category"
+				placeholder="category"
+				required
+			/>
+			<input type="url" name="" id="image" placeholder="Image-Url" required />
+			<input type="number" name="" id="price" placeholder="Price" required />
+			<select name="" id="gender">
+				<option value="Male">Male</option>
+				<option value="Female">Female</option>
+			</select>
+			<select name="" id="sold">
+				<option value="false">False</option>
+				<option value="true">True</option>
+			</select>
+			<input type="submit" value="submit" />
+		</form>
+	</body>
+</html>
+<script>
+	let data = JSON.parse(localStorage.getItem("EnteredData")) || [];
+	console.log(data);
+	function getData() {
+		event.preventDefault();
+		let form = document.querySelector("form");
+		let name = form.name.value;
+		let cat = form.category.value;
+		let url = form.image.value;
+		let price = form.price.value;
+		let gender = form.gender.value;
+		let sold = form.sold.value;
+
+		function getDatas(name, cat, url, price, gender, sold) {
+			this.name = name;
+			this.category = cat;
+			this.image_url = url;
+			this.price = price;
+			this.gender = gender;
+			this.sold = sold;
+		}
+
+		let temp = new getDatas(name, cat, url, price, gender, sold);
+		data.push(temp);
+		localStorage.setItem("EnteredData", JSON.stringify(data));
+		form.name.value = "";
+		form.category.value = "";
+		form.image.value = "";
+		form.price.value = "";
+	}
+</script>
